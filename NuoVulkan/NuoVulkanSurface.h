@@ -33,6 +33,7 @@ public:
     ~NuoVulkanSurface();
     
     friend NuoVulkanInstance;
+    friend NuoVulkanPhysicalDevice;
 
 };
 
