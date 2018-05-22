@@ -6,10 +6,18 @@
 //
 
 #include "NuoVulkanInstance.h"
+#include "NuoVulkanPhysicalDevice.h"
 
 #include <vulkan/vulkan.h>
 #include <vulkan/vk_sdk_platform.h>
 #include <vulkan/vulkan_macos.h>
+
+
+
+struct NuoVulkanPhysicalDeviceInternal
+{
+    VkPhysicalDevice _device;
+};
 
 
 
@@ -21,14 +29,17 @@ struct NuoVulkanInstanceInternal
 
 
 NuoVulkanInstance::NuoVulkanInstance(const std::string& name)
-    : _name(name)
+    : _name(name), _internal(nullptr)
 {
-    _internal = new NuoVulkanInstanceInternal;
 }
 
 
 NuoVulkanInstance::~NuoVulkanInstance()
 {
+    if (!_internal)
+        return;
+    
+    vkDestroyInstance(_internal->_inst, nullptr);
     delete _internal;
 }
 
@@ -36,6 +47,8 @@ NuoVulkanInstance::~NuoVulkanInstance()
 
 void NuoVulkanInstance::Initialize()
 {
+    _internal = new NuoVulkanInstanceInternal;
+    
     uint32_t extensionCount = 0;
     VkResult err = vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
     assert(err == VK_SUCCESS);
@@ -87,4 +100,36 @@ void NuoVulkanInstance::Initialize()
         
     delete[] extensions;
 }
+
+
+NuoVulkanPhysicalDeviceList NuoVulkanInstance::PhysicalDevices()
+{
+    uint32_t gpuCount = 0;
+    VkResult err = vkEnumeratePhysicalDevices(_internal->_inst, &gpuCount, NULL);
+    assert(err == VK_SUCCESS && gpuCount > 0);
+    
+    VkPhysicalDevice* physicalDevices = new VkPhysicalDevice[gpuCount];
+    err = vkEnumeratePhysicalDevices(_internal->_inst, &gpuCount, physicalDevices);
+    assert(err == VK_SUCCESS);
+    
+    NuoVulkanPhysicalDeviceList devices;
+    
+    for (uint32_t i = 0; i < gpuCount; ++i)
+    {
+        VkPhysicalDevice* physicalDevice = physicalDevices + i;
+        NuoVulkanPhysicalDeviceInternal* deviceInternal = new NuoVulkanPhysicalDeviceInternal;
+        deviceInternal->_device = physicalDevices[i];
+        
+        PNuoVulkanPhysicalDevice device(new NuoVulkanPhysicalDevice(shared_from_this(),
+                                                                    deviceInternal));
+        devices.push_back(device);
+    }
+    
+    delete[] physicalDevices;
+    
+    return devices;
+}
+
+
+
 

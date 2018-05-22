@@ -15,8 +15,12 @@
 
 
 class NuoVulkanInstanceInternal;
+class NuoVulkanPhysicalDevice;
 
-class NuoVulkanInstance
+typedef std::shared_ptr<NuoVulkanPhysicalDevice> PNuoVulkanPhysicalDevice;
+typedef std::vector<PNuoVulkanPhysicalDevice> NuoVulkanPhysicalDeviceList;
+
+class NuoVulkanInstance : public std::enable_shared_from_this<NuoVulkanInstance>
 {
     std::string _name;
     std::vector<const char*> _extensionsDesired;
@@ -30,6 +34,7 @@ public:
     ~NuoVulkanInstance();
     
     void Initialize();
+    NuoVulkanPhysicalDeviceList PhysicalDevices();
     
 };
 
