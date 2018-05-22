@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2CB64BE420B3684B00204CF6 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B67B851C3AAEA200373FFD /* DemoViewController.m */; };
+		2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */; };
+		2CB64BE420B3684B00204CF6 /* DemoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B67B851C3AAEA200373FFD /* DemoViewController.mm */; };
 		2CF8ED8420B35C800087E3B3 /* cube.frag in Resources */ = {isa = PBXBuildFile; fileRef = A904B5311C9A08C90008C013 /* cube.frag */; };
 		2CF8ED8520B35C830087E3B3 /* cube.vert in Resources */ = {isa = PBXBuildFile; fileRef = A904B5331C9A08C90008C013 /* cube.vert */; };
 		2CF8ED8E20B35E880087E3B3 /* libMoltenVK.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8ED8D20B35E880087E3B3 /* libMoltenVK.dylib */; };
@@ -53,6 +54,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanInstance.cpp; sourceTree = "<group>"; };
+		2C41865420B36FC100EEDFE7 /* NuoVulkanInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanInstance.h; sourceTree = "<group>"; };
 		2CF8ED8D20B35E880087E3B3 /* libMoltenVK.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMoltenVK.dylib; path = macOS/libMoltenVK.dylib; sourceTree = "<group>"; };
 		A904B4641C99B5950008C013 /* Demos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demos.h; sourceTree = "<group>"; };
 		A904B52E1C9A08C90008C013 /* cube-frag.spv */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cube-frag.spv"; sourceTree = "<group>"; };
@@ -77,7 +80,7 @@
 		A9B67B821C3AAEA200373FFD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A9B67B831C3AAEA200373FFD /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A9B67B841C3AAEA200373FFD /* DemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
-		A9B67B851C3AAEA200373FFD /* DemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
+		A9B67B851C3AAEA200373FFD /* DemoViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DemoViewController.mm; sourceTree = "<group>"; };
 		A9B67B861C3AAEA200373FFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9B67B871C3AAEA200373FFD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A9B67B881C3AAEA200373FFD /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2CB64BE520B36F3F00204CF6 /* Vulkan */,
 				A904B4641C99B5950008C013 /* Demos.h */,
 				A904B52C1C9A08C80008C013 /* demos */,
 				A9B67B6A1C3AAE9800373FFD /* iOS */,
@@ -125,6 +129,16 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		2CB64BE520B36F3F00204CF6 /* Vulkan */ = {
+			isa = PBXGroup;
+			children = (
+				2C41865420B36FC100EEDFE7 /* NuoVulkanInstance.h */,
+				2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */,
+			);
+			name = Vulkan;
+			path = ../NuoVulkan;
 			sourceTree = "<group>";
 		};
 		A904B52C1C9A08C80008C013 /* demos */ = {
@@ -181,7 +195,7 @@
 				A9B67B821C3AAEA200373FFD /* AppDelegate.h */,
 				A9B67B831C3AAEA200373FFD /* AppDelegate.m */,
 				A9B67B841C3AAEA200373FFD /* DemoViewController.h */,
-				A9B67B851C3AAEA200373FFD /* DemoViewController.m */,
+				A9B67B851C3AAEA200373FFD /* DemoViewController.mm */,
 				A9B67B861C3AAEA200373FFD /* Info.plist */,
 				A9B67B871C3AAEA200373FFD /* main.m */,
 				A9B67B881C3AAEA200373FFD /* Prefix.pch */,
@@ -340,8 +354,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB64BE420B3684B00204CF6 /* DemoViewController.m in Sources */,
+				2CB64BE420B3684B00204CF6 /* DemoViewController.mm in Sources */,
 				A9B53B181C3AC0BE00ABC6F6 /* AppDelegate.m in Sources */,
+				2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */,
 				A9B53B191C3AC0BE00ABC6F6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
