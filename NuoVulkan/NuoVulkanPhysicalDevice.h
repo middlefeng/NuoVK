@@ -37,6 +37,7 @@ public:
     ~NuoVulkanPhysicalDevice();
     
     const char* Name();
+    uint32_t QueueFamiliesCount();
     
     friend NuoVulkanInstance;
 

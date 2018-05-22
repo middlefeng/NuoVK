@@ -60,3 +60,16 @@ const char* NuoVulkanPhysicalDevice::Name()
     
     return _properties->_properties.deviceName;
 }
+
+
+
+uint32_t NuoVulkanPhysicalDevice::QueueFamiliesCount()
+{
+    uint32_t count = 0;
+    
+    vkGetPhysicalDeviceQueueFamilyProperties(_internal->_device, &count, nullptr);
+    return count;
+}
+
+
+

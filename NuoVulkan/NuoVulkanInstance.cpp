@@ -6,6 +6,8 @@
 //
 
 #include "NuoVulkanInstance.h"
+
+#include "NuoVulkanSurface.h"
 #include "NuoVulkanPhysicalDevice.h"
 
 #include <vulkan/vulkan.h>
@@ -24,6 +26,12 @@ struct NuoVulkanPhysicalDeviceInternal
 struct NuoVulkanInstanceInternal
 {
     VkInstance _inst;
+};
+
+
+struct NuoVulkanSurfaceInternal
+{
+    VkSurfaceKHR _surface;
 };
 
 
@@ -132,4 +140,26 @@ NuoVulkanPhysicalDeviceList NuoVulkanInstance::PhysicalDevices()
 
 
 
+PNuoVulkanSurface NuoVulkanInstance::MakeSurface(void* view)
+{
+    VkMacOSSurfaceCreateInfoMVK surface;
+    surface.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
+    surface.pNext = NULL;
+    surface.flags = 0;
+    surface.pView = view;
+    
+    NuoVulkanSurfaceInternal* surfaceInternal = new NuoVulkanSurfaceInternal;
+    VkResult err = vkCreateMacOSSurfaceMVK(_internal->_inst, &surface, NULL, &surfaceInternal->_surface);
+    
+    PNuoVulkanSurface vulkanSurface(new NuoVulkanSurface(shared_from_this(),
+                                                         surfaceInternal));
+    
+    return vulkanSurface;
+}
+
+
+void NuoVulkanInstance::DestroySurface(const PNuoVulkanSurface& surface)
+{
+    vkDestroySurfaceKHR(_internal->_inst, surface->_internal->_surface, nullptr);
+}
 

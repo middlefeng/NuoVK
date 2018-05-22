@@ -20,6 +20,12 @@ class NuoVulkanPhysicalDevice;
 typedef std::shared_ptr<NuoVulkanPhysicalDevice> PNuoVulkanPhysicalDevice;
 typedef std::vector<PNuoVulkanPhysicalDevice> NuoVulkanPhysicalDeviceList;
 
+
+class NuoVulkanSurface;
+
+typedef std::shared_ptr<NuoVulkanSurface> PNuoVulkanSurface;
+
+
 class NuoVulkanInstance : public std::enable_shared_from_this<NuoVulkanInstance>
 {
     std::string _name;
@@ -35,6 +41,9 @@ public:
     
     void Initialize();
     NuoVulkanPhysicalDeviceList PhysicalDevices();
+    
+    PNuoVulkanSurface MakeSurface(void* view);
+    void DestroySurface(const PNuoVulkanSurface& surface);
     
 };
 

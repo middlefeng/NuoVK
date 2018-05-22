@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */; };
 		2C41865820B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865620B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp */; };
+		2C41865B20B4692200EEDFE7 /* NuoVulkanSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865920B4692200EEDFE7 /* NuoVulkanSurface.cpp */; };
 		2CB64BE420B3684B00204CF6 /* DemoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B67B851C3AAEA200373FFD /* DemoViewController.mm */; };
 		2CF8ED8420B35C800087E3B3 /* cube.frag in Resources */ = {isa = PBXBuildFile; fileRef = A904B5311C9A08C90008C013 /* cube.frag */; };
 		2CF8ED8520B35C830087E3B3 /* cube.vert in Resources */ = {isa = PBXBuildFile; fileRef = A904B5331C9A08C90008C013 /* cube.vert */; };
@@ -59,6 +60,8 @@
 		2C41865420B36FC100EEDFE7 /* NuoVulkanInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanInstance.h; sourceTree = "<group>"; };
 		2C41865620B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanPhysicalDevice.cpp; sourceTree = "<group>"; };
 		2C41865720B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanPhysicalDevice.h; sourceTree = "<group>"; };
+		2C41865920B4692200EEDFE7 /* NuoVulkanSurface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanSurface.cpp; sourceTree = "<group>"; };
+		2C41865C20B4693800EEDFE7 /* NuoVulkanSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuoVulkanSurface.h; sourceTree = "<group>"; };
 		2CF8ED8D20B35E880087E3B3 /* libMoltenVK.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMoltenVK.dylib; path = macOS/libMoltenVK.dylib; sourceTree = "<group>"; };
 		A904B4641C99B5950008C013 /* Demos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Demos.h; sourceTree = "<group>"; };
 		A904B52E1C9A08C90008C013 /* cube-frag.spv */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cube-frag.spv"; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */,
 				2C41865720B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.h */,
 				2C41865620B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp */,
+				2C41865C20B4693800EEDFE7 /* NuoVulkanSurface.h */,
+				2C41865920B4692200EEDFE7 /* NuoVulkanSurface.cpp */,
 			);
 			name = Vulkan;
 			path = ../NuoVulkan;
@@ -364,6 +369,7 @@
 				2C41865820B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp in Sources */,
 				2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */,
 				A9B53B191C3AC0BE00ABC6F6 /* main.m in Sources */,
+				2C41865B20B4692200EEDFE7 /* NuoVulkanSurface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
