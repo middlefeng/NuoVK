@@ -303,6 +303,8 @@ typedef struct {
 } SwapchainImageResources;
 
 struct demo {
+    bool resized;
+    
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
 #define APP_NAME_STR_LEN 80
     HINSTANCE connection;         // hInstance - Windows Instance
@@ -1009,6 +1011,8 @@ static void demo_draw(struct demo *demo) {
         err =
             demo->fpAcquireNextImageKHR(demo->device, demo->swapchain, UINT64_MAX,
                                         demo->image_acquired_semaphores[demo->frame_index], VK_NULL_HANDLE, &demo->current_buffer);
+        
+        printf("Error on Acquire Next. %u.\n", (unsigned int)err);
 
         if (err == VK_ERROR_OUT_OF_DATE_KHR) {
             // demo->swapchain is out of date (e.g. the window was resized) and

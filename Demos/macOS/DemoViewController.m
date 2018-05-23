@@ -36,9 +36,20 @@
 	[super dealloc];
 }
 
+-(void) viewDidLayout
+{
+    static int counter = 0;
+    if (counter++ > 3)
+        demo.resized = true;
+}
+
+
+
 /** Since this is a single-view app, initialize Vulkan during view loading. */
 -(void) viewDidLoad {
 	[super viewDidLoad];
+    
+    demo.resized = false;
 
 	self.view.wantsLayer = YES;		// Back the view with a layer created by the makeBackingLayer method.
 	const char* arg = "cube";
@@ -59,7 +70,14 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
 									CVOptionFlags flagsIn,
 									CVOptionFlags* flagsOut,
 									void* target) {
-	demo_draw((struct demo*)target);
+    
+    if (((struct demo*)target)->resized)
+    {
+        demo_resize(((struct demo*)target));
+        ((struct demo*)target)->resized = false;
+    }
+    
+    demo_draw((struct demo*)target);
 	return kCVReturnSuccess;
 }
 
