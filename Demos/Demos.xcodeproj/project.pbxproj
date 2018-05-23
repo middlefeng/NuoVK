@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C2BD53A20B4A2A7000FF4A1 /* NuoVulkanDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C2BD53720B4A1FD000FF4A1 /* NuoVulkanDevice.cpp */; };
 		2C2BD53E20B4C1D5000FF4A1 /* NuoVulkanShaderModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C2BD53B20B4C167000FF4A1 /* NuoVulkanShaderModule.cpp */; };
+		2C2BD54220B4EAE7000FF4A1 /* NuoVulkanShaderLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C2BD53F20B4EACE000FF4A1 /* NuoVulkanShaderLibrary.cpp */; };
 		2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */; };
 		2C41865820B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865620B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp */; };
 		2C41865B20B4692200EEDFE7 /* NuoVulkanSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C41865920B4692200EEDFE7 /* NuoVulkanSurface.cpp */; };
@@ -62,6 +63,8 @@
 		2C2BD53820B4A1FD000FF4A1 /* NuoVulkanDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanDevice.h; sourceTree = "<group>"; };
 		2C2BD53B20B4C167000FF4A1 /* NuoVulkanShaderModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanShaderModule.cpp; sourceTree = "<group>"; };
 		2C2BD53C20B4C167000FF4A1 /* NuoVulkanShaderModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanShaderModule.h; sourceTree = "<group>"; };
+		2C2BD53F20B4EACE000FF4A1 /* NuoVulkanShaderLibrary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanShaderLibrary.cpp; sourceTree = "<group>"; };
+		2C2BD54020B4EACE000FF4A1 /* NuoVulkanShaderLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanShaderLibrary.h; sourceTree = "<group>"; };
 		2C41865320B36FC100EEDFE7 /* NuoVulkanInstance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanInstance.cpp; sourceTree = "<group>"; };
 		2C41865420B36FC100EEDFE7 /* NuoVulkanInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuoVulkanInstance.h; sourceTree = "<group>"; };
 		2C41865620B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuoVulkanPhysicalDevice.cpp; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				2C41865920B4692200EEDFE7 /* NuoVulkanSurface.cpp */,
 				2C2BD53C20B4C167000FF4A1 /* NuoVulkanShaderModule.h */,
 				2C2BD53B20B4C167000FF4A1 /* NuoVulkanShaderModule.cpp */,
+				2C2BD54020B4EACE000FF4A1 /* NuoVulkanShaderLibrary.h */,
+				2C2BD53F20B4EACE000FF4A1 /* NuoVulkanShaderLibrary.cpp */,
 			);
 			name = Vulkan;
 			path = ../NuoVulkan;
@@ -378,6 +383,7 @@
 				A9B53B181C3AC0BE00ABC6F6 /* AppDelegate.m in Sources */,
 				2C2BD53E20B4C1D5000FF4A1 /* NuoVulkanShaderModule.cpp in Sources */,
 				2C41865820B3D97B00EEDFE7 /* NuoVulkanPhysicalDevice.cpp in Sources */,
+				2C2BD54220B4EAE7000FF4A1 /* NuoVulkanShaderLibrary.cpp in Sources */,
 				2C41865520B36FC100EEDFE7 /* NuoVulkanInstance.cpp in Sources */,
 				A9B53B191C3AC0BE00ABC6F6 /* main.m in Sources */,
 				2C2BD53A20B4A2A7000FF4A1 /* NuoVulkanDevice.cpp in Sources */,
