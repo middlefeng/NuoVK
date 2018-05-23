@@ -11,6 +11,7 @@
 #include <string>
 
 #include "NuoVulkanShaderModule.h"
+#include "NuoVulkanDeviceQueue.h"
 
 
 struct NuoVulkanDeviceInternal
@@ -25,9 +26,19 @@ struct NuoVulkanShaderModuleInternal
 };
 
 
+struct NuoVulkanDeviceQueueInternal
+{
+    VkQueue _queue;
+};
 
-NuoVulkanDevice::NuoVulkanDevice(NuoVulkanDeviceInternal* internal)
-    : _internal(internal)
+
+
+NuoVulkanDevice::NuoVulkanDevice(const PNuoVulkanPhysicalDevice& physicalDevice,
+                                 uint32_t queueIndex,
+                                 NuoVulkanDeviceInternal* internal)
+    : _internal(internal),
+      _physicalDevice(physicalDevice),
+      _queueIndex(queueIndex)
 {
     assert(_internal != nullptr);
 }
@@ -89,5 +100,14 @@ void NuoVulkanDevice::DestroyShaderModule(const PNuoVulkanShaderModule& shaderMo
 }
 
 
+
+PNuoVulkanDeviceQueue NuoVulkanDevice::DeviceQueue()
+{
+    NuoVulkanDeviceQueueInternal* deviceQueueInternal = new NuoVulkanDeviceQueueInternal;
+    vkGetDeviceQueue(_internal->_device, _queueIndex, 0, &deviceQueueInternal->_queue);
+    
+    PNuoVulkanDeviceQueue queue(new NuoVulkanDeviceQueue(deviceQueueInternal));
+    return queue;
+}
 
 

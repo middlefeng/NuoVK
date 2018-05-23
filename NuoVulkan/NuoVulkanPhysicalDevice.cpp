@@ -196,7 +196,9 @@ PNuoVulkanDevice NuoVulkanPhysicalDevice::CreateDevice(const PNuoVulkanSurface& 
                                   nullptr, &deviceInternal->_device);
     assert(err == VK_SUCCESS);
     
-    PNuoVulkanDevice device(new NuoVulkanDevice(deviceInternal));
+    PNuoVulkanDevice device(new NuoVulkanDevice(shared_from_this(),
+                                                queueFamilyIndex,
+                                                deviceInternal));
     return device;
 }
 
