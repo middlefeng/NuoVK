@@ -9,10 +9,16 @@
 #define NuoVulkanDevice_hpp
 
 
+#include <memory>
+
+
 class NuoVulkanPhysicalDevice;
+class NuoVulkanShaderModule;
 class NuoVulkanDeviceInternal;
 
-class NuoVulkanDevice
+typedef std::shared_ptr<NuoVulkanShaderModule> PNuoVulkanShaderModule;
+
+class NuoVulkanDevice : public std::enable_shared_from_this<NuoVulkanDevice>
 {
     NuoVulkanDeviceInternal* _internal;
 
@@ -22,6 +28,9 @@ class NuoVulkanDevice
 public:
     
     ~NuoVulkanDevice();
+    
+    PNuoVulkanShaderModule CreateShaderModule(const std::string& path);
+    void DestroyShaderModule(const PNuoVulkanShaderModule& shaderModule);
     
     friend NuoVulkanPhysicalDevice;
     
