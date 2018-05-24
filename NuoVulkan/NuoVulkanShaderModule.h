@@ -10,32 +10,26 @@
 
 #include <vector>
 #include <string>
+#include <vulkan/vulkan.h>
 
 class NuoVulkanDevice;
-
-class NuoVulkanShaderModuleInternal;
 
 typedef std::shared_ptr<NuoVulkanDevice> PNuoVulkanDevice;
 
 
 class NuoVulkanShaderModule : public std::enable_shared_from_this<NuoVulkanShaderModule>
 {
-
-    NuoVulkanShaderModuleInternal* _internal;
-    NuoVulkanShaderModule(const PNuoVulkanDevice& device,
-                          uint8_t* pCode, size_t pCodeSize,
-                          NuoVulkanShaderModuleInternal* internal);
     
-    uint8_t* _pCode;
-    size_t _pCodeSize;
+    VkShaderModule _vkShaderModule;
+    std::vector<uint32_t> _pCode;
     
     PNuoVulkanDevice _device;
 
 public:
 
+    NuoVulkanShaderModule(const PNuoVulkanDevice& device,
+                          const std::string& path);
     ~NuoVulkanShaderModule();
-    
-    friend NuoVulkanDevice;
     
 };
 

@@ -8,31 +8,29 @@
 #include "NuoVulkanSurface.h"
 
 
-#include <vulkan/vulkan.h>
 #include <vulkan/vulkan_macos.h>
 
 
 
-struct NuoVulkanSurfaceInternal
+
+NuoVulkanSurface::NuoVulkanSurface(const PNuoVulkanInstance& instance, void* view)
+    : _instance(instance)
 {
-    VkSurfaceKHR _surface;
-};
-
-
-
-NuoVulkanSurface::NuoVulkanSurface(const std::shared_ptr<NuoVulkanInstance>& instance,
-                                   NuoVulkanSurfaceInternal* internal)
-    : _internal(internal),
-      _instance(instance)
-{
+    VkMacOSSurfaceCreateInfoMVK surface;
+    surface.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
+    surface.pNext = NULL;
+    surface.flags = 0;
+    surface.pView = view;
+    
+    VkResult err = vkCreateMacOSSurfaceMVK(instance->VulkanInstance(), &surface, NULL, &_vkSurface);
+    assert(err == VK_SUCCESS);
+    
+    memset(&_vkSurfaceCapabilities, 0, sizeof(_vkSurfaceCapabilities));
 }
 
 
 NuoVulkanSurface::~NuoVulkanSurface()
 {
-    if (_internal)
-    {
-        _instance->DestroySurface(shared_from_this());
-        delete _internal;
-    }
+    vkDestroySurfaceKHR(_instance->VulkanInstance(), _vkSurface, nullptr);
 }
+

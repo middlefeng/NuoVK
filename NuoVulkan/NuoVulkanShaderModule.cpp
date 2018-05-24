@@ -8,39 +8,45 @@
 #include "NuoVulkanShaderModule.h"
 
 #include <stdio.h>
-#include <vulkan/vulkan.h>
-#include <vulkan/vulkan_core.h>
 
 #include "NuoVulkanDevice.h"
 
 
 
-struct NuoVulkanShaderModuleInternal
-{
-    VkShaderModule _module;
-};
-
-
 NuoVulkanShaderModule::NuoVulkanShaderModule(const PNuoVulkanDevice& device,
-                                             uint8_t* pCode, size_t pCodeSize,
-                                             NuoVulkanShaderModuleInternal* internal)
-    : _internal(internal),
-      _pCode(pCode),
-      _pCodeSize(pCodeSize),
-      _device(device)
+                                             const std::string& path)
+    : _device(device)
 {
+    FILE* file = fopen(path.c_str(), "r");
+    if (file)
+    {
+        int error = fseek(file, 0, SEEK_END);
+        assert(!error);
+        
+        size_t pos = ftell(file);
+        _pCode.resize(pos);
+        
+        rewind(file);
+        fread((void*)&_pCode[0], pos, 1, file);
+        fclose(file);
+        
+        VkShaderModuleCreateInfo shaderInfo =
+        {
+            .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = 0,
+            .codeSize = pos,
+            .pCode = (const uint32_t*)&_pCode[0]
+        };
+        
+        VkResult err = vkCreateShaderModule(device->VulkanDevice(), &shaderInfo, nullptr, &_vkShaderModule);
+        assert(err == VK_SUCCESS);
+    }
 }
 
 
 
 NuoVulkanShaderModule::~NuoVulkanShaderModule()
 {
-    if (_pCode)
-        delete[] _pCode;
-    
-    if (_internal)
-    {
-        _device->DestroyShaderModule(shared_from_this());
-        delete _internal;
-    }
+    vkDestroyShaderModule(_device->VulkanDevice(), _vkShaderModule, nullptr);
 }

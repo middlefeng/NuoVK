@@ -11,9 +11,8 @@
 
 #include "NuoVulkanInstance.h"
 
+#include <vulkan/vulkan.h>
 
-class NuoVulkanPhysicalDeviceInternal;
-class NuoVulkanPhysicalDeviceProperties;
 
 class NuoVulkanDevice;
 class NuoVulkanSurface;
@@ -29,15 +28,14 @@ private:
     
     std::shared_ptr<NuoVulkanInstance> _instance;
     
-    NuoVulkanPhysicalDeviceInternal* _internal;
-    NuoVulkanPhysicalDeviceProperties* _properties;
+    VkPhysicalDevice _vkPhysicalDevice;
+    VkPhysicalDeviceProperties _properties;
+    std::vector<VkQueueFamilyProperties> _queueFamilyProperties;
     
     std::vector<std::string> _extensions;
     std::vector<const char*> _extensionsDesired;
     
     NuoVulkanPhysicalDevice() = delete;
-    NuoVulkanPhysicalDevice(const std::shared_ptr<NuoVulkanInstance>& instance,
-                            NuoVulkanPhysicalDeviceInternal* internal);
     
     void CacheProperties();
     void CacheQueueFamilyProperties();
@@ -45,7 +43,11 @@ private:
 
 public:
     
+    NuoVulkanPhysicalDevice(const std::shared_ptr<NuoVulkanInstance>& instance,
+                            VkPhysicalDevice vkPhysicalDevice);
     ~NuoVulkanPhysicalDevice();
+    
+    VkPhysicalDevice VulkanPhysicalDevice() { return _vkPhysicalDevice; }
     
     const char* Name();
     PNuoVulkanDevice CreateDevice(const PNuoVulkanSurface& surface);
@@ -54,8 +56,6 @@ public:
     bool QueueFamilySupportGraphics(uint32_t index);
     bool QueueFamilySupportPresent(uint32_t index, const PNuoVulkanSurface& surface);
     
-    friend NuoVulkanInstance;
-
 };
 
 #endif /* NuoVulkanPhysicalDevice_hpp */

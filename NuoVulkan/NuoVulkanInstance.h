@@ -13,8 +13,9 @@
 #include <memory>
 #include <vector>
 
+#include <vulkan/vulkan.h>
 
-class NuoVulkanInstanceInternal;
+
 class NuoVulkanPhysicalDevice;
 
 typedef std::shared_ptr<NuoVulkanPhysicalDevice> PNuoVulkanPhysicalDevice;
@@ -32,7 +33,7 @@ class NuoVulkanInstance : public std::enable_shared_from_this<NuoVulkanInstance>
     std::vector<const char*> _extensionsDesired;
     std::vector<std::string> _extensions;
     
-    NuoVulkanInstanceInternal* _internal;
+    VkInstance _vkInstance;
     
 public:
     
@@ -40,10 +41,11 @@ public:
     ~NuoVulkanInstance();
     
     void Initialize();
-    NuoVulkanPhysicalDeviceList PhysicalDevices();
     
+    NuoVulkanPhysicalDeviceList PhysicalDevices();
     PNuoVulkanSurface MakeSurface(void* view);
-    void DestroySurface(const PNuoVulkanSurface& surface);
+    
+    VkInstance VulkanInstance() { return _vkInstance; }
     
 };
 

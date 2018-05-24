@@ -8,20 +8,25 @@
 #ifndef NuoVulkanDeviceQueue_hpp
 #define NuoVulkanDeviceQueue_hpp
 
+#include <vulkan/vulkan.h>
+#include <memory>
 
-class NuoVulkanDeviceQueueInternal;
+
 class NuoVulkanDevice;
+
+typedef std::shared_ptr<NuoVulkanDevice> PNuoVulkanDevice;
 
 class NuoVulkanDeviceQueue
 {
     
-    NuoVulkanDeviceQueueInternal* _internal;
+    VkQueue _queue;
 
     NuoVulkanDeviceQueue() = delete;
-    NuoVulkanDeviceQueue(NuoVulkanDeviceQueueInternal* internal);
     
 public:
     
+    NuoVulkanDeviceQueue(const PNuoVulkanDevice& device,
+                         uint32_t queueFamilyIndex);
     ~NuoVulkanDeviceQueue();
     
     friend NuoVulkanDevice;

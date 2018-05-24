@@ -6,24 +6,16 @@
 //
 
 #include "NuoVulkanDeviceQueue.h"
+#include "NuoVulkanDevice.h"
 
-#include <vulkan/vulkan.h>
 
-struct NuoVulkanDeviceQueueInternal
+
+NuoVulkanDeviceQueue::NuoVulkanDeviceQueue(const PNuoVulkanDevice& device,
+                                           uint32_t queueFamilyIndex)
 {
-    VkQueue _queue;
-};
-
-
-
-NuoVulkanDeviceQueue::NuoVulkanDeviceQueue(NuoVulkanDeviceQueueInternal* internal)
-    : _internal(internal)
-{
+    vkGetDeviceQueue(device->VulkanDevice(), queueFamilyIndex, 0, &_queue);
 }
-
 
 NuoVulkanDeviceQueue::~NuoVulkanDeviceQueue()
 {
-    if (_internal)
-        delete _internal;
 }

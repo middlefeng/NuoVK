@@ -10,53 +10,29 @@
 #include "NuoVulkanSurface.h"
 #include "NuoVulkanPhysicalDevice.h"
 
-#include <vulkan/vulkan.h>
 #include <vulkan/vk_sdk_platform.h>
 #include <vulkan/vulkan_macos.h>
 
 
 
-struct NuoVulkanPhysicalDeviceInternal
-{
-    VkPhysicalDevice _device;
-};
-
-
-
-struct NuoVulkanInstanceInternal
-{
-    VkInstance _inst;
-};
-
-
-struct NuoVulkanSurfaceInternal
-{
-    VkSurfaceKHR _surface;
-};
-
-
-
 NuoVulkanInstance::NuoVulkanInstance(const std::string& name)
-    : _name(name), _internal(nullptr)
+    : _name(name), _vkInstance(0)
 {
 }
 
 
 NuoVulkanInstance::~NuoVulkanInstance()
 {
-    if (!_internal)
+    if (!_vkInstance)
         return;
     
-    vkDestroyInstance(_internal->_inst, nullptr);
-    delete _internal;
+    vkDestroyInstance(_vkInstance, nullptr);
 }
 
 
 
 void NuoVulkanInstance::Initialize()
 {
-    _internal = new NuoVulkanInstanceInternal;
-    
     uint32_t extensionCount = 0;
     VkResult err = vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
     assert(err == VK_SUCCESS);
@@ -103,7 +79,7 @@ void NuoVulkanInstance::Initialize()
         .ppEnabledExtensionNames = (const char *const *)&_extensionsDesired[0],
     };
     
-    err = vkCreateInstance(&instInfo, NULL, &_internal->_inst);
+    err = vkCreateInstance(&instInfo, NULL, &_vkInstance);
     assert(err == VK_SUCCESS);
         
     delete[] extensions;
@@ -113,11 +89,11 @@ void NuoVulkanInstance::Initialize()
 NuoVulkanPhysicalDeviceList NuoVulkanInstance::PhysicalDevices()
 {
     uint32_t gpuCount = 0;
-    VkResult err = vkEnumeratePhysicalDevices(_internal->_inst, &gpuCount, NULL);
+    VkResult err = vkEnumeratePhysicalDevices(_vkInstance, &gpuCount, NULL);
     assert(err == VK_SUCCESS && gpuCount > 0);
     
     VkPhysicalDevice* physicalDevices = new VkPhysicalDevice[gpuCount];
-    err = vkEnumeratePhysicalDevices(_internal->_inst, &gpuCount, physicalDevices);
+    err = vkEnumeratePhysicalDevices(_vkInstance, &gpuCount, physicalDevices);
     assert(err == VK_SUCCESS);
     
     NuoVulkanPhysicalDeviceList devices;
@@ -125,11 +101,8 @@ NuoVulkanPhysicalDeviceList NuoVulkanInstance::PhysicalDevices()
     for (uint32_t i = 0; i < gpuCount; ++i)
     {
         VkPhysicalDevice* physicalDevice = physicalDevices + i;
-        NuoVulkanPhysicalDeviceInternal* deviceInternal = new NuoVulkanPhysicalDeviceInternal;
-        deviceInternal->_device = physicalDevices[i];
-        
         PNuoVulkanPhysicalDevice device(new NuoVulkanPhysicalDevice(shared_from_this(),
-                                                                    deviceInternal));
+                                                                    *physicalDevice));
         devices.push_back(device);
     }
     
@@ -142,24 +115,9 @@ NuoVulkanPhysicalDeviceList NuoVulkanInstance::PhysicalDevices()
 
 PNuoVulkanSurface NuoVulkanInstance::MakeSurface(void* view)
 {
-    VkMacOSSurfaceCreateInfoMVK surface;
-    surface.sType = VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK;
-    surface.pNext = NULL;
-    surface.flags = 0;
-    surface.pView = view;
-    
-    NuoVulkanSurfaceInternal* surfaceInternal = new NuoVulkanSurfaceInternal;
-    VkResult err = vkCreateMacOSSurfaceMVK(_internal->_inst, &surface, NULL, &surfaceInternal->_surface);
-    
-    PNuoVulkanSurface vulkanSurface(new NuoVulkanSurface(shared_from_this(),
-                                                         surfaceInternal));
+    PNuoVulkanSurface vulkanSurface(new NuoVulkanSurface(shared_from_this(), view));
     
     return vulkanSurface;
 }
 
-
-void NuoVulkanInstance::DestroySurface(const PNuoVulkanSurface& surface)
-{
-    vkDestroySurfaceKHR(_internal->_inst, surface->_internal->_surface, nullptr);
-}
 

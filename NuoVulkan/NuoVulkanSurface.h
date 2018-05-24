@@ -12,28 +12,28 @@
 #include "NuoVulkanInstance.h"
 
 #include <memory>
+#include <vulkan/vulkan.h>
 
 
-class NuoVulkanSurfaceInternal;
+class NuoVulkanDevice;
 
 
 class NuoVulkanSurface : public std::enable_shared_from_this<NuoVulkanSurface>
 {
     
-    NuoVulkanSurfaceInternal* _internal;
+    VkSurfaceKHR _vkSurface;
+    VkSurfaceCapabilitiesKHR _vkSurfaceCapabilities;
     
     NuoVulkanSurface() = delete;
-    NuoVulkanSurface(const std::shared_ptr<NuoVulkanInstance>& instance,
-                     NuoVulkanSurfaceInternal* internal);
-    
+    NuoVulkanSurface(const NuoVulkanSurface& o) = delete;
     PNuoVulkanInstance _instance;
-
+    
 public:
     
+    NuoVulkanSurface(const PNuoVulkanInstance& instance, void* view);
     ~NuoVulkanSurface();
     
-    friend NuoVulkanInstance;
-    friend NuoVulkanPhysicalDevice;
+    VkSurfaceKHR VulkanSurface() { return _vkSurface; }
 
 };
 
