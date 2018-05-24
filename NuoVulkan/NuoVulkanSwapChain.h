@@ -11,20 +11,30 @@
 
 #include <vulkan/vulkan.h>
 #include <memory>
+#include <vector>
 
 
 class NuoVulkanDevice;
+class NuoVulkanImageView;
 
 
 typedef std::shared_ptr<NuoVulkanDevice> PNuoVulkanDevice;
-
+typedef std::shared_ptr<NuoVulkanImageView> PNuoVulkanImageView;
 
 
 class NuoVulkanSwapChain
 {
     PNuoVulkanDevice _device;
     
-    VkSwapchainKHR _swapChain;
+    VkSwapchainKHR _vkSwapChain;
+    
+    uint32_t _imageCount;
+    VkFormat _imageFormat;
+    
+    std::vector<VkImage> _images;
+    std::vector<PNuoVulkanImageView> _imageViews;
+    
+    void CacheSwapImages();
 
 public:
     
@@ -32,7 +42,8 @@ public:
                        const VkSwapchainCreateInfoKHR& createInfo);
     ~NuoVulkanSwapChain();
     
-    VkSwapchainKHR VulaknSwapchain() { return _swapChain; }
+    VkSwapchainKHR VulaknSwapchain() { return _vkSwapChain; }
+    const std::vector<PNuoVulkanImageView>& ImageViews();
     
 };
 
