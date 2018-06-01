@@ -22,6 +22,7 @@ class NuoVulkanImageView
 {
 
     VkImageView _vkImageView;
+    VkFormat _vkFormat;
     
     PNuoVulkanDevice _device;
     
@@ -30,6 +31,8 @@ public:
     NuoVulkanImageView(const PNuoVulkanDevice& device,
                        const VkImageViewCreateInfo& createInfo);
     ~NuoVulkanImageView();
+    
+    VkFormat VulkanFormat() { return _vkFormat; }
 
 };
 

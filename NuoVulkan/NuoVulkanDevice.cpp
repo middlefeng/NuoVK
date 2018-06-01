@@ -64,7 +64,7 @@ NuoVulkanDevice::~NuoVulkanDevice()
 void NuoVulkanDevice::CacheSurfaceCapabilities()
 {
     uint32_t* initialized = (uint32_t*)&_surfaceCapabilities;
-    if (!initialized)
+    if (*initialized)
         return;
     
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_physicalDevice->VulkanPhysicalDevice(),

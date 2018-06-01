@@ -16,22 +16,42 @@
  * limitations under the License.
  */
 
+
+#define NUO_VK 1
+
+
 #import "DemoViewController.h"
 #import <QuartzCore/CAMetalLayer.h>
 
+#if !NUO_VK
 #include "../Demos.h"			// The LunarG Vulkan SDK demo code
+#endif
 
+#if NUO_VK
+#include "NuoVulkanInstance.h"
+#include "NuoVulkanPhysicalDevice.h"
+#include "NuoVulkanDevice.h"
+#include "NuoVulkanShaderLibrary.h"
+#include "NuoVulkanDeviceQueue.h"
+#include "NuoVulkanImageView.h"
+#include "NuoVulkanSwapChain.h"
+#include "NuoVulkanCommandBuffer.h"
+#endif
 
 #pragma mark -
 #pragma mark DemoViewController
 
 @implementation DemoViewController {
 	CVDisplayLinkRef	_displayLink;
+#if !NUO_VK
 	struct demo demo;
+#endif
 }
 
 -(void) dealloc {
+#if !NUO_VK
 	demo_cleanup(&demo);
+#endif
 	CVDisplayLinkRelease(_displayLink);
 	[super dealloc];
 }
@@ -39,8 +59,10 @@
 -(void) viewDidLayout
 {
     static int counter = 0;
+#if !NUO_VK
     if (counter++ > 3)
         demo.resized = true;
+#endif
 }
 
 
@@ -49,14 +71,45 @@
 -(void) viewDidLoad {
 	[super viewDidLoad];
     
+#if !NUO_VK
     demo.resized = false;
+#endif
 
 	self.view.wantsLayer = YES;		// Back the view with a layer created by the makeBackingLayer method.
 	const char* arg = "cube";
+#if !NUO_VK
 	demo_main(&demo, self.view, 1, &arg);
+#endif
+    
+#if NUO_VK
+    PNuoVulkanInstance instance = std::make_shared<NuoVulkanInstance>("Nuo");
+    instance->Initialize();
+    
+    NuoVulkanPhysicalDeviceList devices = instance->PhysicalDevices();
+    for (PNuoVulkanPhysicalDevice device : devices)
+    {
+        printf("Device Name. %s.\n", device->Name());
+        printf("Queue families count. %u.\n", device->QueueFamiliesCount());
+    }
+    
+    PNuoVulkanSurface surface = instance->MakeSurface(self.view);
+    PNuoVulkanDevice device = devices[0]->CreateDevice(surface);
+    PNuoVulkanShaderLibrary library = std::make_shared<NuoVulkanShaderLibrary>(device,
+                                                                               "/Users/middleware/UserData/Source/NuoVK/Demos/Vulkan-LoaderAndValidationLayers/demos");
+    PNuoVulkanShaderModule shaderVert = library->ShaderModule("cube-vert");
+    PNuoVulkanShaderModule shaderFrag = library->ShaderModule("cube-frag");
+    PNuoVulkanDeviceQueue queue = device->DeviceQueue();
+    PNuoVulkanSwapChain swapchain = device->CreateSwapChain(nullptr);
+    
+    PNuoVulkanCommandBuffer commandBuffer = queue->CommandBuffer();
+    
+    const std::vector<PNuoVulkanImageView> imageViews = swapchain->ImageViews();
+#endif
 
 	CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
+#if !NUO_VK
 	CVDisplayLinkSetOutputCallback(_displayLink, &DisplayLinkCallback, &demo);
+#endif
 	CVDisplayLinkStart(_displayLink);
 }
 
@@ -71,6 +124,7 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
 									CVOptionFlags* flagsOut,
 									void* target) {
     
+#if !NUO_VK
     if (((struct demo*)target)->resized)
     {
         demo_resize(((struct demo*)target));
@@ -78,6 +132,7 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
     }
     
     demo_draw((struct demo*)target);
+#endif
 	return kCVReturnSuccess;
 }
 

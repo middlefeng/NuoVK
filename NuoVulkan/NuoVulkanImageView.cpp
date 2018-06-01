@@ -11,7 +11,8 @@
 
 NuoVulkanImageView::NuoVulkanImageView(const PNuoVulkanDevice& device,
                                        const VkImageViewCreateInfo& createInfo)
-    : _device(device)
+    : _device(device),
+      _vkFormat(createInfo.format)
 {
     VkResult err = vkCreateImageView(device->VulkanDevice(), &createInfo, nullptr, &_vkImageView);
     assert(err == VK_SUCCESS);

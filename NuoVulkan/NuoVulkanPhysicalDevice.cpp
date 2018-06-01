@@ -32,7 +32,7 @@ NuoVulkanPhysicalDevice::~NuoVulkanPhysicalDevice()
 void NuoVulkanPhysicalDevice::CacheProperties()
 {
     uint32_t* initialized = (uint32_t*)&_properties;
-    if (!initialized)
+    if (!(*initialized))
         vkGetPhysicalDeviceProperties(_vkPhysicalDevice, &_properties);
 }
 
